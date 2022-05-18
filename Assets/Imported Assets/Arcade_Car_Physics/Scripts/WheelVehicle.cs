@@ -206,10 +206,79 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
             spawnPosition = transform.position;
             spawnRotation = transform.rotation;
         }
-
+        private bool IsWheelsDown()
+        {
+            //raycast down from car = ground should be closely there
+            return Physics.Raycast(this.transform.position, -transform.up, bnd.size.y * 0.55f);
+        }
         public override void OnActionReceived(ActionBuffers actions)
         {
-            
+            if (IsWheelsDown() == false)
+    
+                return;
+            float mag = Mathf.Abs(_rb.velocity.sqrMagnitude);
+            switch (actions.DiscreteActions.Array[0])
+            {
+                case 0:
+                    break;
+                case 1: 
+                    _rb.AddRelativeForce(Vector3.back * throttle * Time.deltaTime, ForceMode.VelocityChange); //back
+                    break;
+                case 2:
+                    _rb.AddRelativeForce(Vector3.forward * throttle * Time.deltaTime, ForceMode.VelocityChange); //forward
+                    AddReward(mag * rwd.mult_forward);
+                    break;
+            }
+            switch (actions.DiscreteActions.Array[1])   //turn
+            {
+                case 0:
+                    break;
+                case 1:
+                    this.transform.Rotate(Vector3.up, -steering * Time.deltaTime); //left
+                    break;
+                case 2:
+                    this.transform.Rotate(Vector3.up, steering * Time.deltaTime); //right
+                    break;
+            }
+
+
+        }
+        public override void Heuristic(in ActionBuffers actionsOut)
+        {
+            //Purpose:  for me to simulate the brain actions (I control the car with the keyboard)
+            actionsOut.DiscreteActions.Array[0] = 0;
+            actionsOut.DiscreteActions.Array[1] = 0;
+
+            float move = Input.GetAxis("Vertical");     // -1..0..1  WASD arrowkeys
+            float turn = Input.GetAxis("Horizontal");
+
+            if (move < 0)
+                actionsOut.DiscreteActions.Array[0] = 1;    //back
+            else if (move > 0)
+                actionsOut.DiscreteActions.Array[0] = 2;    //forward
+
+            if (turn < 0)
+                actionsOut.DiscreteActions.Array[1] = 1;    //left
+            else if (turn > 0)
+                actionsOut.DiscreteActions.Array[1] = 2;    //right
+        }
+        private void OnCollisionEnter(Collision collision)
+        {
+            float mag = collision.relativeVelocity.sqrMagnitude;
+
+            if (collision.gameObject.CompareTag("WallSx") == true
+                || collision.gameObject.CompareTag("WallDx") == true)
+            {
+                AddReward(mag * rwd.mult_barrier);
+                if (doEpisodes == true)
+                    EndEpisode();
+            }
+            else if (collision.gameObject.CompareTag("Car") == true)
+            {
+                AddReward(mag * rwd.mult_car);
+                if (doEpisodes == true)
+                    EndEpisode();
+            }
         }
         
         // Init rigidbody, center of mass, wheels and more
