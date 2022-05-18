@@ -6,6 +6,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Imported_Assets.Arcade_Car_Physics.Scripts;
 
 namespace VehicleBehaviour.Trails
 {

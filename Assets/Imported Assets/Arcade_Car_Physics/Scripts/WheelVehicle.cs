@@ -3,19 +3,34 @@
  * 
  * This is distributed under the MIT Licence (see LICENSE.md for details)
  */
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.MLAgents;
-using UnityEngine;
 
+using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
+using UnityEngine;
 #if MULTIOSCONTROLS
     using MOSC;
 #endif
 
-namespace VehicleBehaviour {
+namespace Imported_Assets.Arcade_Car_Physics.Scripts {
     [RequireComponent(typeof(Rigidbody))]
     public class WheelVehicle : Agent {
+        
+        
+        [System.Serializable]
+        public class RewardInfo
+        {                                           
+            public float mult_forward = 0.001f; 
+            public float mult_barrier = -0.8f; 
+            public float mult_car = -0.5f; 
+        }
+
+
+        public RewardInfo rwd = new RewardInfo();
+        public bool doEpisodes = true;
+        private Bounds bnd;
+        
+        
+        
         
         [Header("Inputs")]
     #if MULTIOSCONTROLS
@@ -180,6 +195,23 @@ namespace VehicleBehaviour {
         Rigidbody _rb;
         WheelCollider[] wheels;
 
+
+
+
+        public override void OnEpisodeBegin()
+        {
+            
+            _rb = GetComponent<Rigidbody>();
+            _rb.velocity = Vector3.zero;
+            spawnPosition = transform.position;
+            spawnRotation = transform.rotation;
+        }
+
+        public override void OnActionReceived(ActionBuffers actions)
+        {
+            
+        }
+        
         // Init rigidbody, center of mass, wheels and more
         void Start() {
 #if MULTIOSCONTROLS
