@@ -19,9 +19,11 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
         [System.Serializable]
         public class RewardInfo
         {                                           
-            public float mult_forward = 0.001f; 
+            public float mult_forward = 0.01f; 
+            public float mult_backward = -0.01f; 
             public float mult_barrier = -0.8f; 
-            public float mult_car = -0.5f; 
+            public float mult_car = -0.5f;
+            public float nomovement = -0.01f;
         }
 
 
@@ -220,9 +222,11 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
             switch (actions.DiscreteActions.Array[0])
             {
                 case 0:
+                    AddReward(mag * rwd.nomovement);
                     break;
                 case 1: 
                     _rb.AddRelativeForce(Vector3.back * throttle * Time.deltaTime, ForceMode.VelocityChange); //back
+                    AddReward(mag * rwd.mult_backward);
                     break;
                 case 2:
                     _rb.AddRelativeForce(Vector3.forward * throttle * Time.deltaTime, ForceMode.VelocityChange); //forward
