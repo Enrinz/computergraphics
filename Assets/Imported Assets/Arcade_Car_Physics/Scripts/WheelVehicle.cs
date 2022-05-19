@@ -205,7 +205,7 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
             
             _rb = GetComponent<Rigidbody>();
             _rb.velocity = Vector3.zero;
-            spawnPosition = transform.position;
+            spawnPosition = new Vector3(23.37f, -3.44f, 191.9f);
             spawnRotation = transform.rotation;
         }
         private bool IsWheelsDown()
@@ -213,6 +213,9 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
             //raycast down from car = ground should be closely there
             return Physics.Raycast(this.transform.position, -transform.up, bnd.size.y * 0.55f);
         }
+
+        public float Movespeed = 30;
+        public float Turnspeed = 100;
         public override void OnActionReceived(ActionBuffers actions)
         {
             if (IsWheelsDown() == false)
@@ -225,11 +228,11 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
                     AddReward(mag * rwd.nomovement);
                     break;
                 case 1: 
-                    _rb.AddRelativeForce(Vector3.back * throttle * Time.deltaTime, ForceMode.VelocityChange); //back
+                    _rb.AddRelativeForce(Vector3.back * Movespeed * Time.deltaTime, ForceMode.VelocityChange); //back
                     AddReward(mag * rwd.mult_backward);
                     break;
                 case 2:
-                    _rb.AddRelativeForce(Vector3.forward * throttle * Time.deltaTime, ForceMode.VelocityChange); //forward
+                    _rb.AddRelativeForce(Vector3.forward * Movespeed * Time.deltaTime, ForceMode.VelocityChange); //forward
                     AddReward(mag * rwd.mult_forward);
                     break;
             }
@@ -238,10 +241,10 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
                 case 0:
                     break;
                 case 1:
-                    this.transform.Rotate(Vector3.up, -steering * Time.deltaTime); //left
+                    this.transform.Rotate(Vector3.up, -Turnspeed * Time.deltaTime); //left
                     break;
                 case 2:
-                    this.transform.Rotate(Vector3.up, steering * Time.deltaTime); //right
+                    this.transform.Rotate(Vector3.up, Turnspeed * Time.deltaTime); //right
                     break;
             }
 

@@ -38,17 +38,18 @@ namespace VehicleBehaviour.Utils {
 		Rigidbody rb;
 		Rigidbody target_rb;
 
-		WheelVehicle vehicle;
+		List<WheelVehicle> vehicle = new List<WheelVehicle>();
 
 		void Start () {
 			rb = GetComponent<Rigidbody>();
 		}
 
 		// Select target from targets list using it's index
-		public void SetTargetIndex(int i) {
+		public void SetTargetIndex(int i)
+		{
 			WheelVehicle v;
 
-			foreach(Transform t in targets)
+			foreach (Transform t in targets)
 			{
 				v = t != null ? t.GetComponent<WheelVehicle>() : null;
 				if (v != null)
@@ -58,14 +59,19 @@ namespace VehicleBehaviour.Utils {
 				}
 			}
 
-			target = targets[i % targets.Length];
-
-			vehicle = target != null ? target.GetComponent<WheelVehicle>() : null;
-			if (vehicle != null)
+			foreach (Transform t in targets)
 			{
-				vehicle.IsPlayer = true;
-				vehicle.Handbrake = false;
+				vehicle.Add(t != null ? t.GetComponent<WheelVehicle>() : null);
 			}
+			
+			vehicle.ForEach(delegate(WheelVehicle vehic)
+			{
+				if (vehic != null)
+				{
+					vehic.IsPlayer = true;
+					vehic.Handbrake = false;
+				}
+			});
 		}
 
 		void FixedUpdate() {
@@ -97,11 +103,11 @@ namespace VehicleBehaviour.Utils {
 			}
 
 			// Update speedometer
-			if (speedometer != null && vehicle != null)
+			if (speedometer != null && vehicle[0] != null)
 			{
 				StringBuilder sb = new StringBuilder();
 				sb.Append("Speed:");
-				sb.Append(((int) (vehicle.Speed)).ToString());
+				sb.Append(((int) (vehicle[0].Speed)).ToString());
 				sb.Append(" Kph");
 
 				speedometer.text = sb.ToString();
