@@ -6,6 +6,7 @@
 
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
 using UnityEngine;
 #if MULTIOSCONTROLS
     using MOSC;
@@ -24,6 +25,7 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
             public float mult_barrier = -0.8f; 
             public float mult_car = -0.5f;
             public float nomovement = -0.01f;
+            public float rightdirection = 0.0001f;
         }
 
 
@@ -119,8 +121,8 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
         public float DriftIntensity { get { return driftIntensity; } set { driftIntensity = Mathf.Clamp(value, 0.0f, 2.0f); }}
 
         // Reset Values
-        Vector3 spawnPosition;
-        Quaternion spawnRotation;
+        Vector3 spawnPosition=new Vector3(23.37f,-3.44f,191.92f);
+        Quaternion spawnRotation=new Quaternion(0f,-90f,0f,0f);
 
         /*
          *  The center of mass is set at the start and changes the car behavior A LOT
@@ -201,26 +203,28 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
 
 
         public override void OnEpisodeBegin()
-        {
-            
+        { /*
             _rb = GetComponent<Rigidbody>();
             _rb.velocity = Vector3.zero;
-            spawnPosition = new Vector3(23.37f, -3.44f, 191.9f);
+            spawnPosition = transform.position;
             spawnRotation = transform.rotation;
+            */
+            ResetPos();
         }
         private bool IsWheelsDown()
         {
             //raycast down from car = ground should be closely there
             return Physics.Raycast(this.transform.position, -transform.up, bnd.size.y * 0.55f);
         }
-
-        public float Movespeed = 30;
-        public float Turnspeed = 100;
+        public float Movespeed = 18;
+        public float Turnspeed = 80;
         public override void OnActionReceived(ActionBuffers actions)
         {
+            /*
             if (IsWheelsDown() == false)
     
                 return;
+                */
             float mag = Mathf.Abs(_rb.velocity.sqrMagnitude);
             switch (actions.DiscreteActions.Array[0])
             {
@@ -279,13 +283,57 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
                 AddReward(mag * rwd.mult_barrier);
                 if (doEpisodes == true)
                     EndEpisode();
-            }
+            }/*
             else if (collision.gameObject.CompareTag("Car") == true)
             {
                 AddReward(mag * rwd.mult_car);
                 if (doEpisodes == true)
                     EndEpisode();
+            }*/
+        }
+        public override void CollectObservations(VectorSensor sensor)
+        {
+            //Note: BehaviourParameters component - set VectorObservation size to 3, because here
+            //      we are adding 3 observations manually
+
+            //1. cast rays to both sides of car
+            int layermask = 1 << 13; //6 is carperception 
+            Vector3 posbottomcar = new Vector3(this.transform.position.x, this.transform.position.y + bnd.size.y + 0.5f, this.transform.position.z);
+            Vector3 posDx = new Vector3(posbottomcar.x + 1.0f, posbottomcar.y, posbottomcar.z); ;
+            Vector3 posSx = new Vector3(posbottomcar.x - 1.0f, posbottomcar.y, posbottomcar.z);
+            RaycastHit[] hitDx = Physics.SphereCastAll(posbottomcar, 0.2f, posDx, 20f, layermask);
+            RaycastHit[] hitSx = Physics.SphereCastAll(posbottomcar, 0.2f, posSx, 20f, layermask);
+
+            //2. did white hit BarrierWhite, and yellow hit BarrierYellow?
+            bool isDx = false;
+            bool isSx = false;
+            bool isRightDirection;
+            foreach (RaycastHit hit in hitDx)
+            {
+                if (hit.collider.gameObject.CompareTag("WallDx") == true)
+                {
+                    isDx = true;
+                    break;
+                }
+            }        
+            foreach (RaycastHit hit in hitSx)
+            {
+                if (hit.collider.gameObject.CompareTag("WallSx") == true)
+                {
+                    isSx = true;
+                    break;
+                }
             }
+            isRightDirection = isDx || isSx;
+                
+            //3. manually send 3 observations to the neural network
+            sensor.AddObservation(isRightDirection);
+            if (isRightDirection == true)
+            {
+                AddReward(rwd.rightdirection);
+            }
+            sensor.AddObservation(isDx);
+            sensor.AddObservation(isSx);
         }
         
         // Init rigidbody, center of mass, wheels and more
