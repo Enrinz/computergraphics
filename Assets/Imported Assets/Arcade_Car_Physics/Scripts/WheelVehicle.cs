@@ -26,6 +26,7 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
             public float mult_car = -0.5f;
             public float nomovement = -0.01f;
             public float rightdirection = 0.0001f;
+            public float checkpoint = 0.01f;
         }
 
 
@@ -283,7 +284,14 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
                 AddReward(mag * rwd.mult_barrier);
                 if (doEpisodes == true)
                     EndEpisode();
-            }/*
+
+            }
+            else if (collision.gameObject.CompareTag("Checkpoint") == true)
+            {
+                AddReward(mag*rwd.checkpoint);
+            }
+            /*
+            
             else if (collision.gameObject.CompareTag("Car") == true)
             {
                 AddReward(mag * rwd.mult_car);

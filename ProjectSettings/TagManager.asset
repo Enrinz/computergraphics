@@ -12,6 +12,7 @@ TagManager:
   - WallSx
   - WallDx
   - Road
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
