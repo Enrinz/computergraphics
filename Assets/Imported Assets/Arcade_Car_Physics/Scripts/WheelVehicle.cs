@@ -122,7 +122,7 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
         public float DriftIntensity { get { return driftIntensity; } set { driftIntensity = Mathf.Clamp(value, 0.0f, 2.0f); }}
 
         // Reset Values
-        Vector3 spawnPosition=new Vector3(23.37f,-3.44f,191.92f);
+        Vector3 spawnPosition=new Vector3(-10.9495f,8.525623f,27.83685f);
         Quaternion spawnRotation=new Quaternion(0f,-90f,0f,0f);
 
         /*
