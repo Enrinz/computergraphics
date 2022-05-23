@@ -217,7 +217,7 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
             //raycast down from car = ground should be closely there
             return Physics.Raycast(this.transform.position, -transform.up, bnd.size.y * 0.55f);
         }
-        public float Movespeed = 18;
+        public float Movespeed = 15;
         public float Turnspeed = 80;
         public override void OnActionReceived(ActionBuffers actions)
         {
@@ -288,6 +288,7 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
             }
             else if (collision.gameObject.CompareTag("Checkpoint") == true)
             {
+                Debug.Log("checkpoint!!");
                 AddReward(mag*rwd.checkpoint);
             }
             /*
