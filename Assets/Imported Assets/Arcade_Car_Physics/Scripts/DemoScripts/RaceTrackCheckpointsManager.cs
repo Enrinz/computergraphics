@@ -68,7 +68,7 @@ public class RaceTrackCheckpointsManager : MonoBehaviour
         else if (_lastCP < checkPoints.Length && checkPoints[_lastCP] == cpEvent)
         {   // This is the next logical CP
             Debug.Log("CP: " + _lastCP.ToString());
-
+            
             _lastCP++;
         }
     }
