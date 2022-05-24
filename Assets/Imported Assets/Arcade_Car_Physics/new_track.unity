@@ -6950,12 +6950,12 @@ PrefabInstance:
     - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10,
         type: 3}
       propertyPath: isPlayer
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10,
         type: 3}
       propertyPath: handbrake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10,
         type: 3}
@@ -9280,7 +9280,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: d07c63fd117fb3c47865b0d4db387fff, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 688d90ca18750ee42aacb26bd909488a, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: Test4
