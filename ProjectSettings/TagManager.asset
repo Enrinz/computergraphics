@@ -13,6 +13,7 @@ TagManager:
   - WallDx
   - Road
   - Checkpoint
+  - Breakplace
   layers:
   - Default
   - TransparentFX

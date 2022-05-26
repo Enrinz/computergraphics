@@ -291,6 +291,7 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
                 Debug.Log("checkpoint!!");
                 AddReward(mag*rwd.checkpoint);
             }
+           
             /*
             
             else if (collision.gameObject.CompareTag("Car") == true)
@@ -300,6 +301,7 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
                     EndEpisode();
             }*/
         }
+        
         public override void CollectObservations(VectorSensor sensor)
         {
             //Note: BehaviourParameters component - set VectorObservation size to 3, because here
@@ -359,6 +361,7 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
             _rb = GetComponent<Rigidbody>();
             spawnPosition = transform.position;
             spawnRotation = transform.rotation;
+            
 
             if (_rb != null && centerOfMass != null)
             {
