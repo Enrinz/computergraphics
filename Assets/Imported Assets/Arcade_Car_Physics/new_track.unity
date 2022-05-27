@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1570,10 +1570,10 @@ Transform:
   - {fileID: 585803689}
   - {fileID: 1182882542}
   - {fileID: 1461312683}
+  - {fileID: 1791840424}
   - {fileID: 1818977832}
   - {fileID: 170556037}
   - {fileID: 545761661}
-  - {fileID: 1791840424}
   - {fileID: 204883741}
   - {fileID: 2102880944}
   - {fileID: 902124945}
@@ -10263,7 +10263,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 4a0d766ba66f121429bbba430ca08184, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: af514055686289b488cc38b054edde68, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: Test4
@@ -15512,7 +15512,7 @@ Transform:
   m_LocalScale: {x: 13, y: 1, z: 12}
   m_Children: []
   m_Father: {fileID: 167998482}
-  m_RootOrder: 45
+  m_RootOrder: 42
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1791840425
 MeshCollider:
