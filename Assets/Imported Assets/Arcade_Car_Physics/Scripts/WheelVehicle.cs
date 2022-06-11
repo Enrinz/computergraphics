@@ -27,6 +27,7 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
             public float nomovement = -0.01f;
             public float rightdirection = 0.0001f;
             public float checkpoint = 0.01f;
+            public float lap = 20f;
         }
 
 
@@ -124,6 +125,7 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
         // Reset Values
         Vector3 spawnPosition;//=new Vector3(-10.9495f,8.525623f,27.83685f);
         Quaternion spawnRotation; //=new Quaternion(0f,-90f,0f,0f);
+        public int count_check;
 
         /*
          *  The center of mass is set at the start and changes the car behavior A LOT
@@ -290,6 +292,10 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
             {
                 Debug.Log("checkpoint!!");
                 AddReward(mag*rwd.checkpoint);
+                count_check += 1;
+                if (count_check % 71 ==0)
+                    AddReward(count_check/71*rwd.lap);
+
             }
            
             /*
@@ -361,7 +367,7 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
             _rb = GetComponent<Rigidbody>();
             spawnPosition = transform.position;
             spawnRotation = transform.rotation;
-            
+            count_check = 0;
 
             if (_rb != null && centerOfMass != null)
             {
@@ -510,7 +516,8 @@ namespace Imported_Assets.Arcade_Car_Physics.Scripts {
         public void ResetPos() {
             transform.position = spawnPosition;
             transform.rotation = spawnRotation;
-
+            
+            count_check = 0;
             _rb.velocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
         }
