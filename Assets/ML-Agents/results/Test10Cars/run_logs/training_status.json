@@ -1,0 +1,38 @@
+{
+    "Test5": {
+        "checkpoints": [
+            {
+                "steps": 499986,
+                "file_path": "results\\Test10Cars\\Test5\\Test5-499986.onnx",
+                "reward": 1211.8298857552666,
+                "creation_time": 1654101155.8949053,
+                "auxillary_file_paths": [
+                    "results\\Test10Cars\\Test5\\Test5-499986.pt"
+                ]
+            },
+            {
+                "steps": 500091,
+                "file_path": "results\\Test10Cars\\Test5\\Test5-500091.onnx",
+                "reward": 1172.6423629234578,
+                "creation_time": 1654101156.0108993,
+                "auxillary_file_paths": [
+                    "results\\Test10Cars\\Test5\\Test5-500091.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 500091,
+            "file_path": "results\\Test10Cars\\Test5.onnx",
+            "reward": 1172.6423629234578,
+            "creation_time": 1654101156.0108993,
+            "auxillary_file_paths": [
+                "results\\Test10Cars\\Test5\\Test5-500091.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.28.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}
